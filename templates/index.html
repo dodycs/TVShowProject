@@ -1,5 +1,25 @@
-{% extends 'base.html' %}
-
-{% block body %}
-<h1>Hello World</h1>
+{% extends 'base.html' %} {% block body %}
+<div class="row">
+   {% for tvshow in tvshows %}
+   <div class="col-sm-3 mb-3">
+      <div class="card">
+         <img class="card-img-top" src="{{ tvshow.image }}" alt="Card image cap">
+         <div class="card-body">
+            <p class="card-text text-center">{{ tvshow.name }}</p>
+            {% if 'user_id' in session %}
+            {% if tvshow.api_id in user_likes %}
+            <p class="card-text text-center">
+               <a href="{{ url_for('unlike_tvshow', user_id = session['user_id'], api_id = tvshow.api_id) }}">Unlike</a>
+            </p>
+            {% else %}
+            <p class="card-text text-center">
+               <a href="{{ url_for('like_tvshow', user_id = session['user_id'], api_id = tvshow.api_id) }}">Like</a>
+            </p>
+            {% endif %}
+            {% endif %}
+         </div>
+      </div>
+   </div>
+   {% endfor %}
+</div>
 {% endblock %}
